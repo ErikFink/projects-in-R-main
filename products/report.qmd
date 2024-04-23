@@ -1,0 +1,78 @@
+---
+title: "Second wave of COVID-19 in Switzerland"
+author: "Erik Fink"
+date: "`r date()`"
+format:execute: 
+  html: 
+    toc: true
+    code-fold: show
+    code-tools: true
+
+---
+
+````{r}
+#Load ribraries
+library(here)
+library(tidyverse)
+library(lubridate)
+#library(unibeCols) #need to install this
+```
+
+##Introduction
+Exerice
+
+## Data
+process data by [Federal Office of Public Health] (https://idd.bag.admin.ch/).
+
+```{r}
+#|output: false
+# Read data
+cases <- read_csv(here("data/raw/COVID19Cases_geoRegion.csv"))
+
+```
+
+```{r}
+#Process data
+
+region <- "CH"
+window_start <- ymd("2020-09-01")
+window_end <- ymd("2020-11-30")
+cases <- cases |>
+  filter(geoRegion == region & datum >= window_start & datum <= window_end) |>
+  select(datum, entries)
+cases
+```
+@fig-cases blabla shows blabla from `rwindow_start` to `r window_end`.
+
+```{r}
+#| label: fig-cases
+
+ggplot(cases, aes(x = datum, y = entries)) +
+  geom_bar(stat = "identitiy") 
+             labs(x = "", y = "Laboratory-confimred cases") +
+             theme_minimal()
+```
+
+##Conclusion
+
+The number of laboratory-confimed cases of Covid-19 in Switzerland rapidly ... 
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
